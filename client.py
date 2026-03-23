@@ -114,9 +114,15 @@ if __name__ == "__main__":
     # if a partition happens to contain only one class.
     num_labels = 2
 
+    # Explicitly load config and set model_type for prajjwal1/bert-tiny, as its config is malformed.
+    from transformers import AutoConfig
+    config = AutoConfig.from_pretrained(args.model_name)
+    config.model_type = 'bert'
+    config.num_labels = num_labels
+
     model = AutoModelForSequenceClassification.from_pretrained(
         args.model_name,
-        num_labels=num_labels
+        config=config
     )
 
     fl.client.start_numpy_client(

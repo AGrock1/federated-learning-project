@@ -145,8 +145,13 @@ def set_parameters(model, parameters):
 # -------------------------------------------------
 def save_global_model(model_name, parameters, save_path="global_model"):
     print(f"Saving global model to {save_path}...")
-    # Initialize a blank model structure using the provided model_name
-    model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=2)
+    # Explicitly load config and set model_type for prajjwal1/bert-tiny, as its config is malformed.
+    from transformers import AutoConfig
+    config = AutoConfig.from_pretrained(model_name)
+    config.model_type = 'bert'
+    config.num_labels = 2
+    
+    model = AutoModelForSequenceClassification.from_pretrained(model_name, config=config)
     
     # Load the trained parameters into it
     set_parameters(model, parameters)
