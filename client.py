@@ -100,17 +100,19 @@ class FlowerClient(fl.client.NumPyClient):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--cid", type=int, required=True)
-    parser.add_argument("--num_clients", type=int, default=3)
-    parser.add_argument("--model_name", type=str, default="distilbert-base-uncased")
-    parser.add_argument("--data_path", type=str, default="masked_output_ner_test.csv")
+    parser.add_argument("--num_clients", type=int, default=2)
+    parser.add_argument("--model_name", type=str, default="prajjwal1/bert-tiny")
+    parser.add_argument("--data_path", type=str, default="dataset.csv")
     args = parser.parse_args()
 
     # Use the utility function to load and split data
     partitions = load_and_split_csv(args.data_path, args.num_clients)
     client_data = partitions[args.cid]
 
-    # Determine number of labels from the data
-    num_labels = len(set(client_data["train_labels"]))
+    # The number of labels for this binary classification task is always 2.
+    # Dynamically calculating this from a client's partition can lead to errors
+    # if a partition happens to contain only one class.
+    num_labels = 2
 
     model = AutoModelForSequenceClassification.from_pretrained(
         args.model_name,

@@ -66,7 +66,7 @@ class SaveModelStrategy(fl.server.strategy.FedAvg):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", type=str, default="distilbert-base-uncased", help="Name of the model to train")
+    parser.add_argument("--model_name", type=str, default="prajjwal1/bert-tiny", help="Name of the model to train")
     args = parser.parse_args()
 
     strategy = SaveModelStrategy(
