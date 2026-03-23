@@ -73,9 +73,9 @@ if __name__ == "__main__":
         model_name=args.model_name,
         fraction_fit=1.0,
         fraction_evaluate=1.0,
-        min_fit_clients=3,
-        min_evaluate_clients=3,
-        min_available_clients=3,
+        min_fit_clients=2,
+        min_evaluate_clients=2,
+        min_available_clients=2,
         evaluate_metrics_aggregation_fn=aggregate_eval_metrics,  # <-- This is the key change
     )
 
