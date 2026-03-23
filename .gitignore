@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+venv/
+.venv/
+env/
+.env
+
+# Build and distribution
+build/
+dist/
+*.egg-info/
+
+# IDE / Editor specific
+.vscode/
+.idea/
+
+# Data files
+# Ignore all CSV and Excel files by default
+*.csv
+*.xlsx
+# But explicitly include the primary dataset
+!dataset.csv
+
+# Results & Logs
+FL_Project_Results/
+*.log
+*.err
+*.out
+
+# OS-specific
+.DS_Store
+Thumbs.db
