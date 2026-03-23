@@ -37,8 +37,7 @@ def save_metrics(metrics: Dict[str, Scalar], round_num: int, model_name: str):
     path = os.path.join(RESULTS_DIR, f"metrics_{model_name.replace('/', '_')}_round_{round_num}.json")
     with open(path, "w") as f:
         json.dump(metrics, f, indent=4)
-    print(f"
-[Server] Metrics saved to {path}")
+    print(f"\n[Server] Metrics saved to {path}")
 
 class SaveModelStrategy(fl.server.strategy.FedAvg):
     def __init__(self, model_name, *args, **kwargs):
@@ -58,8 +57,7 @@ class SaveModelStrategy(fl.server.strategy.FedAvg):
             save_metrics(aggregated_metrics, server_round, self.model_name)
 
         if aggregated_parameters is not None and server_round == 3:
-            print("
-[Server] Final round completed. Saving global model...")
+            print("\n[Server] Final round completed. Saving global model...")
             weights = fl.common.parameters_to_ndarrays(aggregated_parameters)
             save_path = os.path.join(RESULTS_DIR, f"final_{self.model_name.replace('/', '_')}_model")
             save_global_model(self.model_name, weights, save_path)
