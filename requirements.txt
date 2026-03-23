@@ -1,0 +1,6 @@
+flwr[simulation]
+torch
+transformers
+pandas
+scikit-learn
+spacy
