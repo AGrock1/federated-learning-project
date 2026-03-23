@@ -7,6 +7,11 @@ import numpy as np
 import argparse
 import json
 import os
+import logging
+
+# Set up logging
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s")
+
 
 RESULTS_DIR = "FL_Project_Results"
 os.makedirs(RESULTS_DIR, exist_ok=True)
@@ -32,7 +37,8 @@ def save_metrics(metrics: Dict[str, Scalar], round_num: int, model_name: str):
     path = os.path.join(RESULTS_DIR, f"metrics_{model_name.replace('/', '_')}_round_{round_num}.json")
     with open(path, "w") as f:
         json.dump(metrics, f, indent=4)
-    print(f"\n[Server] Metrics saved to {path}")
+    print(f"
+[Server] Metrics saved to {path}")
 
 class SaveModelStrategy(fl.server.strategy.FedAvg):
     def __init__(self, model_name, *args, **kwargs):
@@ -52,7 +58,8 @@ class SaveModelStrategy(fl.server.strategy.FedAvg):
             save_metrics(aggregated_metrics, server_round, self.model_name)
 
         if aggregated_parameters is not None and server_round == 3:
-            print("\n[Server] Final round completed. Saving global model...")
+            print("
+[Server] Final round completed. Saving global model...")
             weights = fl.common.parameters_to_ndarrays(aggregated_parameters)
             save_path = os.path.join(RESULTS_DIR, f"final_{self.model_name.replace('/', '_')}_model")
             save_global_model(self.model_name, weights, save_path)
@@ -79,4 +86,3 @@ if __name__ == "__main__":
         config=fl.server.ServerConfig(num_rounds=3),
         strategy=strategy,
     )
-
